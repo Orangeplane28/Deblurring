@@ -1,6 +1,4 @@
 # Julia package dependencies
-# Install via Julia package manager: ] add <PackageName>
-
 FileIO
 Images
 TestImages
