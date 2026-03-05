@@ -208,7 +208,7 @@ function run_pyramid_rgb(My_rgb::Array{Float64,3}, k_init::Matrix{Float64}, λ0:
     n_levels = length(pyramid)
 
     # uniform init, no spike
-    k_n = fill(1.0/9, 3, 3)
+    k_now = fill(1.0/9, 3, 3)
     x_out = nothing
     λ_now = nothing
 
@@ -221,10 +221,10 @@ function run_pyramid_rgb(My_rgb::Array{Float64,3}, k_init::Matrix{Float64}, λ0:
         kn_level = max(3, round(Int, n * scale)) #minimum of 3
         kn_level = isodd(kn_level) ? kn_level : kn_level + 1 #must be odd
 
-        if size(k_n) != (kn_level, kn_level)
-            k_n = imresize(k_n, (kn_level, kn_level))
-            k_n = max.(k_n, 0.00000001) #keep pixels positive
-            k_n = k_n ./ sum(k_n)  #normalize
+        if size(k_now) != (kn_level, kn_level)
+            k_now = imresize(k_now, (kn_level, kn_level))
+            k_now = max.(k_now, 0.00000001) #keep pixels positive
+            k_now = k_now ./ sum(k_now)  #normalize
         end
 
         max_steps = (level == n_levels) ? max_fine : max_coarse #less computationally expensive
@@ -241,13 +241,13 @@ function run_pyramid_rgb(My_rgb::Array{Float64,3}, k_init::Matrix{Float64}, λ0:
             x_init = x_level
         end
 
-        x_out, k_n, _ = run_pam_rgb(y_level, k_n, λ0, λmin, ϵ_x, ϵ_k, stop, max_steps, x_init)
+        x_out, k_now, _ = run_pam_rgb(y_level, k_now, λ0, λmin, ϵ_x, ϵ_k, stop, max_steps, x_init)
         #println("level: ", level)
 
     end
     #crop it out
     _, r, c = size(My_rgb)
-    ph = (size(k_n, 1) - 1) ÷ 2
-    pw = (size(k_n, 2) - 1) ÷ 2
-    return x_out[:, 1+ph:r+ph, 1+pw:c+pw], k_n
+    ph = (size(k_now, 1) - 1) ÷ 2
+    pw = (size(k_now, 2) - 1) ÷ 2
+    return x_out[:, 1+ph:r+ph, 1+pw:c+pw], k_now
 end
