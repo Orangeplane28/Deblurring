@@ -14,7 +14,7 @@ mutable struct Deconvolution
     λ::Float64 #weight for TV
     γ::Float64 #weight for kernel prior
     step :: Int32
-    diff :: Float64 #comparison between norm(xnew - xold)
+    diff :: Float64 #percentage difference of x and y
 end
 
 function TV(image::Matrix{Float64})
