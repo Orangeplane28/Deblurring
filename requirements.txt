@@ -10,3 +10,7 @@ ImageQualityIndexes
 FFTW
 CoordinateTransformations
 Rotations
+BenchmarkTools
+DataFrames
+CSV
+StatsPlots
