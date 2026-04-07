@@ -14,8 +14,10 @@ resultsf = joinpath(outdir, "results.txt")
 
 #Load images
 #PAM
-gtImgB = load(joinpath(@__DIR__, "../data/blurred.jpg"))
-gtImgGT = load(joinpath(@__DIR__, "../data/groundtruth.jpg"))
+#gtImgB = load(joinpath(@__DIR__, "../data/blurred.jpg"))
+#gtImgGT = load(joinpath(@__DIR__, "../data/groundtruth.jpg"))
+gtImgB = load(joinpath(@__DIR__, "../data/test/blur/33.png"))
+gtImgGT = load(joinpath(@__DIR__, "../data/test/sharp/33.png"))
 My_rgb = Float64.(channelview(gtImgB))
 M_GT =  Float64.(channelview(gtImgGT))
 #WIENER
@@ -23,17 +25,17 @@ My_rgbW = Float32.(My_rgb)
 
 
 # Initial kernel
-k_size = 11
+k_size = 15
 k_init = fill(1.0 / k_size^2, k_size, k_size)
 
 #PAM parameters
-λ0 = 1.5
+λ0 = 2.0
 λmin = 0.0006
 ϵ_x = 0.05
-ϵ_k = 1e-6
+ϵ_k = 5e-7 
 stop = 0.01
 max_coarse = 300
-max_fine = 800
+max_fine = 900
 #WIENER
 σ_blur = 1.6 #gaussian approximation
 psf = Kernel.gaussian((σ_blur))

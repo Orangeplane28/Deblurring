@@ -1,31 +1,13 @@
-27×5 DataFrame
+9×5 DataFrame
  Row │ image_size  kernel_size  method           time_ms         allocs
      │ Int64       Int64        String           Float64         Int64
-─────┼──────────────────────────────────────────────────────────────────
-   1 │        360           11  run_pam           16981.1         77454
-   2 │        360           11  run_pam_rgb       27183.4        164944
-   3 │        360           11  run_pyramid_rgb   23572.6        204620
-   4 │        360           15  run_pam           16487.9         77553
-   5 │        360           15  run_pam_rgb       25736.6        165043
-   6 │        360           15  run_pyramid_rgb   22817.8        251199
-   7 │        360           23  run_pam           18950.8         81604
-   8 │        360           23  run_pam_rgb       30900.2        173497
-   9 │        360           23  run_pyramid_rgb   27427.5        291809
-  10 │        640           11  run_pam           49196.3         77616
-  11 │        640           11  run_pam_rgb       79941.6        165106
-  12 │        640           11  run_pyramid_rgb   71020.4        205917
-  13 │        640           15  run_pam           64749.6         77427
-  14 │        640           15  run_pam_rgb           1.11851e5  164917
-  15 │        640           15  run_pyramid_rgb   92984.6        252487
-  16 │        640           23  run_pam           64557.9         81808
-  17 │        640           23  run_pam_rgb           1.08899e5  173701
-  18 │        640           23  run_pyramid_rgb   97823.7        293145
-  19 │       1024           11  run_pam               1.82323e5   77838
-  20 │       1024           11  run_pam_rgb           2.90702e5  165328
-  21 │       1024           11  run_pyramid_rgb       2.52351e5  205971
-  22 │       1024           15  run_pam               1.92452e5   77535
-  23 │       1024           15  run_pam_rgb           3.1818e5   165025
-  24 │       1024           15  run_pyramid_rgb  268084.0        253895
-  25 │       1024           23  run_pam          200597.0         82030
-  26 │       1024           23  run_pam_rgb           3.32412e5  173923
-  27 │       1024           23  run_pyramid_rgb       2.92104e5  294433
+─────┼────────────────────────────────────────────────────────────────────
+   1 │        360           11  run_pyramid_rgb   29579.7        23977411
+   2 │        360           15  run_pyramid_rgb   29058.5        23362461
+   3 │        360           23  run_pyramid_rgb   33880.6        25839277
+   4 │        640           11  run_pyramid_rgb   84711.1        41652668
+   5 │        640           15  run_pyramid_rgb       1.18813e5    191807
+   6 │        640           23  run_pyramid_rgb       1.19976e5    231265
+   7 │       1024           11  run_pyramid_rgb       5.90262e5    162195
+   8 │       1024           15  run_pyramid_rgb  720196.0          192735
+   9 │       1024           23  run_pyramid_rgb       7.81943e5    231953
