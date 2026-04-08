@@ -20,13 +20,13 @@ gtImgGT = load(joinpath(@__DIR__, "../data/test/sharp/33.png"))
 My_rgb  = Float64.(channelview(gtImgB))
 M_GT    = Float64.(channelview(gtImgGT))
  
-k_size = 27
+k_size = 23
 k_init = fill(1.0 / k_size^2, k_size, k_size)
-λ0 = 2.0
+λ0 = 1.5
 λmin = 0.0006
 ϵ_x = 0.015
 ϵ_k = 1e-6
-stop = 0.05
+stop = 0.01
 max_coarse = 300
 max_fine = 1000
  
@@ -56,10 +56,10 @@ k_refined[k_refined .< 0.1 * maximum(k_p)] .= 0.0
 k_refined ./= sum(k_refined)
  
 #hyper-laplacian non-blind deconvolution
-λ_hl = 10.0
+λ_hl = 100.0
  
 t2 = time()
-x_hl = hyperlaplacian_deconv_rgb(x_p, k_refined, λ_hl)
+x_hl = hyperlaplacian_deconv_rgb(My_rgb, k_refined, λ_hl)
 time_hl = time() - t2
 println("Hyper-Laplacian done in $(round(time_hl, digits=2))s")
  

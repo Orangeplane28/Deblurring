@@ -16,7 +16,8 @@ function compute_w(v::AbstractArray{Float64}, β::Float64)
     t5 = @. t4^(1/3)
 
     #t5 close to 0
-    t5 = @. abs(t5) < ϵ ? complex(ϵ) : t5
+    t5 = ifelse.(abs.(t5) .< ϵ, complex(ϵ), t5)
+
 
     t6 = @. 2 * (-5/18 * t1 + t5 + m / (3 * t5))
     t7 = @. sqrt(Complex(t1/3 + t6))
@@ -27,9 +28,9 @@ function compute_w(v::AbstractArray{Float64}, β::Float64)
     r3 = @. 3v/4 + (-t7 + sqrt(Complex(-(t1 + t6 - t2/t7)))) / 2
     r4 = @. 3v/4 + (-t7 - sqrt(Complex(-(t1 + t6 - t2/t7)))) / 2
  
-    sv    = sign.(v) #sign of gradient at each pixel
-    av    = abs.(v)  #magnitude of gradient at each pixel
-    wstar = zeros(size(v))
+    sv = Float64.(sign.(v)) #sign of gradient at each pixel
+    av = abs.(v)  #magnitude of gradient at each pixel
+    wstar = zeros(Float64, size(v))
 
     #select best root: real, (1/2)|v| - |v| 
     for r in (r1, r2, r3, r4) #for all candidates
@@ -37,7 +38,7 @@ function compute_w(v::AbstractArray{Float64}, β::Float64)
             ip    = abs.(imag.(r))           #imaginary
             valid = (ip .< ϵ) .&  (rp .* sv .> 0.5 .* av) .&  (rp .* sv .< av) #valid if real, root > v/2, root < v             
             better = valid .& (rp .* sv .> wstar .* sv)   #better than current best
-            wstar[better] .= rp[better]      #update best at valid pixels
+            wstar .= ifelse.(better, rp, wstar)      #update best at valid pixels with ifelse
         end
         return wstar
 end
