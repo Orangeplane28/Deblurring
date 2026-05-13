@@ -52,9 +52,11 @@ Implemented:
 Model:
 
 ```math
-W(u,v)=\frac{K^*(u,v)}{|K(u,v)|^2+NSR}
+X(u,v)=
+\frac{K^*(u,v)}
+{|K(u,v)|^2 + NSR}
+Y(u,v)
 ```
-
 ---
 
 ## Blind Deblurring (PAM)

@@ -4,8 +4,10 @@ include("pam.jl")
 include("wiener.jl")
 include("hyper_laplacian.jl")
 
-export pam_deblur
-export wiener_deblur
-export hyper_deblur
+export DeblurMethod
+export PAM
+export Wiener
+export HyperLaplacian
+export deblur
 
 end
