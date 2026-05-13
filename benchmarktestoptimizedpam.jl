@@ -15,18 +15,18 @@ mkpath(outdir)
 resultsf = joinpath(outdir, "results_pyramid.txt")
  
 #images
-gtImgB  = load(joinpath(@__DIR__, "../data/test/blur/2.png"))
-gtImgGT = load(joinpath(@__DIR__, "../data/test/sharp/2.png"))
+gtImgB  = load(joinpath(@__DIR__, "../data/test/blur/33.png"))
+gtImgGT = load(joinpath(@__DIR__, "../data/test/sharp/33.png"))
 My_rgb  = Float64.(channelview(gtImgB))
 M_GT    = Float64.(channelview(gtImgGT))
  
-k_size = 21
+k_size = 23
 k_init = fill(1.0 / k_size^2, k_size, k_size)
-λ0 = 2.0
+λ0 = 1.5
 λmin = 0.0006
 ϵ_x = 0.015
 ϵ_k = 1e-6
-stop = 0.05
+stop = 0.01
 max_coarse = 300
 max_fine = 1000
  
@@ -44,11 +44,11 @@ println("Blurred  PSNR=$(round(psnr_blurred, digits=3))")
 println("Pyramid  PSNR=$(round(psnr_pyramid, digits=3))  SSIM=$(round(ssim_pyramid, digits=4))")
  
 #save deblurred image
-save(joinpath(outdir, "deblurred_pyramid_op2.png"), colorview(RGB, x_p))
+save(joinpath(outdir, "deblurred_pyramid_op.png"), colorview(RGB, x_p))
  
 #kernel heatmap
 heatmap(k_p, color=:hot, title="Estimated kernel ($(k_size)×$(k_size))", aspect_ratio=:equal, axis=false, colorbar=true)
-savefig(joinpath(outdir, "kernel_heatmap_op2.png"))
+savefig(joinpath(outdir, "kernel_heatmap_op.png"))
 
 #kernel refinement
 k_refined = copy(k_p)
@@ -56,17 +56,10 @@ k_refined[k_refined .< 0.1 * maximum(k_p)] .= 0.0
 k_refined ./= sum(k_refined)
  
 #hyper-laplacian non-blind deconvolution
+λ_hl = 100.0
  
 t2 = time()
-x_hl = hyperlaplacian_deconv_rgb(
-    My_rgb,          # [0,1] directly, no multiplication
-    k_refined,
-    4890.0;          # λ  = 3.0  × 1630
-    β0     = 1630.0, # β0 = 1.0  × 1630
-    β_rate = 2*sqrt(2),
-    β_max  = 417280.0  # β_max = 256 × 1630
-)
-x_hl = clamp.(x_hl, 0.0, 1.0)
+x_hl = hyperlaplacian_deconv_rgb(My_rgb, k_refined, λ_hl)
 time_hl = time() - t2
 println("Hyper-Laplacian done in $(round(time_hl, digits=2))s")
  

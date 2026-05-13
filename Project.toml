@@ -1,0 +1,22 @@
+name = "Deblurring"
+uuid = "4f5feafd-c142-47f6-8a7e-22bce97fad6c"
+version = "0.1.0"
+authors = ["Orangeplane28 <caiotimm28@gmail.com>"]
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
+ImageQualityIndexes = "2996bd0c-7a13-11e9-2da2-2f5ce47296a9"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+
+[compat]
+BenchmarkTools = "1.8.0"
+FFTW = "1.10.0"
+FileIO = "1.19.0"
+ImageFiltering = "0.7.12"
+ImageQualityIndexes = "0.3.7"
+Images = "0.26.2"
+Plots = "1.41.6"
