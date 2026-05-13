@@ -67,17 +67,68 @@ Current work includes:
 
 ---
 
-## Hyper-Laplacian Refinement
+## Image Priors
 
-Experimental implementation of Hyper-Laplacian non-blind refinement methods.
+### Vectorial Total Variation Prior
 
-Current focus:
-- iterative optimization
-- quartic-root updates
-- parameter sensitivity
+The blind deconvolution implementation uses a Vectorial Total Variation (VTV) prior for RGB images, coupling all color channels into a single regularization term.
 
-Still under active development.
+```math
+J(x)=\sum_{i,j}\sqrt{
+\sum_{c\in\{r,g,b\}}
+\left(
+|\nabla_x x^c_{i,j}|^2 +
+|\nabla_y x^c_{i,j}|^2
+\right)
+}
+```
 
+where:
+- `∇x` is the horizontal image gradient
+- `∇y` is the vertical image gradient
+- `c ∈ {r,g,b}` indexes the RGB channels
+
+The corresponding divergence term is:
+
+```math
+\nabla J(x)=\operatorname{div}\left(
+\frac{\nabla x}{|\nabla x|}
+\right)
+```
+
+Unlike channel-wise TV, Vectorial TV couples RGB gradients together, helping preserve aligned color edges and reducing color artifacts during deconvolution. 
+
+---
+
+### Hyper-Laplacian Prior
+
+The repository also contains experiments with Hyper-Laplacian image priors for sparse image-gradient regularization and sharper edge preservation.
+
+Natural image gradients are commonly modeled with a heavy-tailed distribution:
+
+```math
+p(\nabla x)\propto e^{-|\nabla x|^\alpha}
+```
+
+with:
+
+```math
+0 < \alpha < 1
+```
+
+The current implementation focuses on the commonly studied case:
+
+```math
+\alpha=\frac{2}{3}
+```
+
+leading to the regularization term:
+
+```math
+J(x)=\sum_{i,j}|\nabla x_{i,j}|^{2/3}
+```
+
+Hyper-Laplacian priors penalize small gradients strongly while preserving larger gradients corresponding to edges and fine structures, making them useful for image restoration and deblurring problems.
 ---
 
 # Repository Structure
