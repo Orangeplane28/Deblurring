@@ -12,18 +12,30 @@ Current work focuses on:
 
 ---
 
-# Motivation
+## Motivation
 
-Satellite and large-scale visual data are heavily affected by blur, noise, and imperfect acquisition processes. These degradations can significantly affect downstream measurements, prediction systems, and visual analysis.
+Satellite data provides information that cannot be effectively obtained from the ground.
 
-This project studies mathematical and optimization-based approaches for recovering sharp images from blurred observations.
+Governments and companies invest heavily in satellites to continuously monitor large regions of Earth, and many prediction systems and large-scale measurements depend directly on this visual data.
 
-The repository was developed as part of ongoing study into:
+One important application is measuring destruction in cities affected by natural disasters. Accurate visual measurements help guide economic investment, urban planning, and resource allocation.
+
+However, satellite imagery is often degraded by:
+- blur
+- noise
+- imperfect acquisition processes
+
+These degradations can significantly affect downstream measurements and predictions.
+
+For example, older satellite systems with blurrier imagery caused nearby regions to appear more similar than they actually were, leading to substantially inflated damage estimates in typhoon-impact studies.
+
+This project studies mathematical and optimization-based approaches for recovering sharp images from blurred observations through:
 - inverse problems
-- variational methods
-- numerical optimization
-- image restoration
-- large visual data processing
+- variational optimization
+- image priors
+- blind deconvolution
+- non-blind deconvolution
+- large visual data restoration
 
 ---
 
@@ -67,8 +79,6 @@ Current work includes:
 
 ---
 
-## Image Priors
-
 ### Vectorial Total Variation Prior
 
 The blind deconvolution implementation uses a Vectorial Total Variation (VTV) prior for RGB images, coupling all color channels into a single regularization term.
@@ -91,18 +101,18 @@ where:
 The corresponding divergence term is:
 
 ```math
-\nabla J(x)=\operatorname{div}\left(
+\nabla J(x)=div\left(
 \frac{\nabla x}{|\nabla x|}
 \right)
 ```
 
-Unlike channel-wise TV, Vectorial TV couples RGB gradients together, helping preserve aligned color edges and reducing color artifacts during deconvolution. 
+Unlike channel-wise TV, Vectorial TV couples RGB gradients together, helping preserve aligned color edges and reducing color artifacts during deconvolution.
 
 ---
 
 ### Hyper-Laplacian Prior
 
-The repository also contains experiments with Hyper-Laplacian image priors for sparse image-gradient regularization and sharper edge preservation.
+The repository also contains experiments with Hyper-Laplacian image priors for sparse image-gradient regularization.
 
 Natural image gradients are commonly modeled with a heavy-tailed distribution:
 
@@ -116,7 +126,7 @@ with:
 0 < \alpha < 1
 ```
 
-The current implementation focuses on the commonly studied case:
+The current implementation focuses on:
 
 ```math
 \alpha=\frac{2}{3}
@@ -128,8 +138,7 @@ leading to the regularization term:
 J(x)=\sum_{i,j}|\nabla x_{i,j}|^{2/3}
 ```
 
-Hyper-Laplacian priors penalize small gradients strongly while preserving larger gradients corresponding to edges and fine structures, making them useful for image restoration and deblurring problems.
----
+This prior preserves strong edges while suppressing weaker noise-like gradients.
 
 # Repository Structure
 
